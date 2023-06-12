@@ -1,7 +1,8 @@
 package com.generacc.backend.calidad.backendcalidad.auth.filters;
 
 import java.io.IOException;
-import java.util.Base64;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +18,12 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generacc.backend.calidad.backendcalidad.model.entity.Usuario;
 
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import static com.generacc.backend.calidad.backendcalidad.auth.TokenJwtConfig.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -40,8 +43,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             user = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
             username = user.getNombreUsuario();
             password = user.getPassword();
-            logger.info("username desde request InputStream(raw)" + username);
-            logger.info("password desde request InputStream(raw)" + password);
         } catch (StreamReadException e) {
 
             e.printStackTrace();
@@ -64,13 +65,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal())
                 .getUsername();
-        String textoOriginal = "algun_toke_con_alguna_frase_secreta" + username;
-        String token = Base64.getEncoder().encodeToString(textoOriginal.getBytes());
+        
+        String token = Jwts.builder()
+            .setSubject(username)
+            .signWith(Secret_Key)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis()+3600000))
+            .compact();
 
         response.addHeader("Authorization", "Bearer" + token);
         Map<String, Object> body = new HashMap<>();
         body.put("message", "Hola has logueado con exito!");
         body.put("username", username);
+        
+
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(200);
         response.setContentType("application/json");
