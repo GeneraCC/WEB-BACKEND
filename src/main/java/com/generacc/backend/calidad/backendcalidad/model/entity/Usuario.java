@@ -1,33 +1,50 @@
 package com.generacc.backend.calidad.backendcalidad.model.entity;
 
-import jakarta.persistence.Entity;
+import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "usuario", schema = "sesion")
+@Table(name = "Usuario", schema = "Sesion")
 public class Usuario {
 
     @Id
-    private Long id;
-    private String nombreUsuario;
+    @Column(name = "idusuario")
+    private Long idusuario;
+    
+    @Column(name = "nombreusuario")
+    private String nombreusuario;
+
     private String password;
 
-    public Long getId() {
-        return id;
+    @ManyToMany
+    @JoinTable(name = "perfilusuario"
+    ,joinColumns = @JoinColumn(name="idusuario")
+    ,inverseJoinColumns = @JoinColumn(name="idperfil")
+    ,uniqueConstraints = {@UniqueConstraint(columnNames = {"idusuario","idperfil"})})
+    private List<Perfil> perfil;
+
+    public Long getIdusuario() {
+        return idusuario;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdusuario(Long idusuario) {
+        this.idusuario = idusuario;
     }
 
     public String getNombreUsuario() {
-        return nombreUsuario;
+        return nombreusuario;
     }
 
     public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+        this.nombreusuario = nombreUsuario;
     }
 
     public String getPassword() {
@@ -38,4 +55,13 @@ public class Usuario {
         this.password = password;
     }
 
+    public List<Perfil> getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(List<Perfil> perfil) {
+        this.perfil = perfil;
+    }
+
+    
 }
