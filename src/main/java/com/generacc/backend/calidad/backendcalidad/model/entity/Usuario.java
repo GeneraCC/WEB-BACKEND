@@ -25,7 +25,7 @@ public class Usuario {
     private String password;
 
     @ManyToMany
-    @JoinTable(name = "perfilusuario"
+    @JoinTable(name = "Perfilusuario",schema = "Config"
     ,joinColumns = @JoinColumn(name="idusuario")
     ,inverseJoinColumns = @JoinColumn(name="idperfil")
     ,uniqueConstraints = {@UniqueConstraint(columnNames = {"idusuario","idperfil"})})
