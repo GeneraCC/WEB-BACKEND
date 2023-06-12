@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BackendCalidadApplication<backend-calidad>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.generacc.backend.calidad.backendcalidad.BackendCalidadApplication",
+            "projectName": "backend-calidad",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\SpringSecurityConfig.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\model\entity\Usuario.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\filters\JwtAuthenticationFilter.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\model\entity\Perfil.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\repositories\PerfilRepository.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\JpaUserDetailsService.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\filters\JwtValidationFilter.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\TokenJwtConfig.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\UserServiceImpl.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\repositories\UserRepository.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\BackendCalidadApplication.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\UserService.java

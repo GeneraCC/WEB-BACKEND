@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 @Entity
 @Table(name = "Perfil", schema = "Entidad")
 public class Perfil {
-
     
     @Id
     @Column(name = "idperfil")

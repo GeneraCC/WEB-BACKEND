@@ -75,8 +75,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.addHeader("Authorization", "Bearer" + token);
         Map<String, Object> body = new HashMap<>();
-        body.put("message", "Hola has logueado con exito!");
-        body.put("username", username);
+        // body.put("message", "Hola has logueado con exito!");
+        // body.put("username", username);
+        body.put("token",token);
         
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));

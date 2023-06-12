@@ -1,0 +1,12 @@
+com\generacc\backend\calidad\backendcalidad\services\UserServiceImpl.class
+com\generacc\backend\calidad\backendcalidad\repositories\PerfilRepository.class
+com\generacc\backend\calidad\backendcalidad\auth\filters\JwtValidationFilter.class
+com\generacc\backend\calidad\backendcalidad\model\entity\Usuario.class
+com\generacc\backend\calidad\backendcalidad\services\UserService.class
+com\generacc\backend\calidad\backendcalidad\services\JpaUserDetailsService.class
+com\generacc\backend\calidad\backendcalidad\auth\SpringSecurityConfig.class
+com\generacc\backend\calidad\backendcalidad\auth\filters\JwtAuthenticationFilter.class
+com\generacc\backend\calidad\backendcalidad\auth\TokenJwtConfig.class
+com\generacc\backend\calidad\backendcalidad\model\entity\Perfil.class
+com\generacc\backend\calidad\backendcalidad\BackendCalidadApplication.class
+com\generacc\backend\calidad\backendcalidad\repositories\UserRepository.class
