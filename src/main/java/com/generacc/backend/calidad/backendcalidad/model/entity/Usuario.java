@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Usuario", schema = "Sesion")
+@Table(name = "Usuario", schema = "Sesion",catalog = "Global")
 public class Usuario {
 
     @Id
@@ -25,7 +25,7 @@ public class Usuario {
     private String password;
 
     @ManyToMany
-    @JoinTable(name = "Perfilusuario",schema = "Sesion"
+    @JoinTable(name = "Perfilusuario",schema = "Sesion",catalog = "Global"
     ,joinColumns = @JoinColumn(name="idusuario")
     ,inverseJoinColumns = @JoinColumn(name="idperfil")
     ,uniqueConstraints = {@UniqueConstraint(columnNames = {"idusuario","idperfil"})})
@@ -63,5 +63,6 @@ public class Usuario {
         this.perfil = perfil;
     }
 
+    
     
 }

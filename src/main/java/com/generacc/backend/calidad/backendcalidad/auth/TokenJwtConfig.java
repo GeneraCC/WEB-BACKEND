@@ -7,6 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenJwtConfig {
     public final static Key Secret_Key=Keys.secretKeyFor(SignatureAlgorithm.HS256);
     public final static String Prefix_Token="Bearer ";
-    public final static String Header_AUTHERIZATION="Autherization";
+    public final static String Header_AUTHORIZATION="Authorization";
     
 }

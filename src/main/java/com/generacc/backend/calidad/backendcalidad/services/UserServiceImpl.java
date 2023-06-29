@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.generacc.backend.calidad.backendcalidad.model.dto.UsuarioDto;
 import com.generacc.backend.calidad.backendcalidad.model.entity.Perfil;
 import com.generacc.backend.calidad.backendcalidad.model.entity.Usuario;
 import com.generacc.backend.calidad.backendcalidad.repositories.PerfilRepository;
@@ -54,6 +55,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void remove(Long id) {
         repository.deleteById(id);
+    }
+    
+    @Override
+    @Transactional
+    public List<UsuarioDto> getUsersWithPerfil(Long idperfil) {
+        return repository.findUsersByPerfilId(idperfil);
     }
 
 }

@@ -3,6 +3,10 @@ package com.generacc.backend.calidad.backendcalidad.auth;
 import java.util.Arrays;
 
 import org.springframework.web.filter.CorsFilter;
+
+import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtAuthenticationFilter;
+import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtValidationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,9 +24,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtAuthenticationFilter;
-import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtValidationFilter;
 
 @Configuration
 public class SpringSecurityConfig {
@@ -43,19 +44,29 @@ public class SpringSecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                        .requestMatchers("/supervisorcalidad/**").hasRole("Supervisor_Calidad")
+                        .requestMatchers("/ejecutivocalidad/**").hasRole("Ejecutivo_Calidad")
+                        .requestMatchers("/calidad/**").hasAnyRole("Supervisor_Calidad","Ejecutivo_Calidad")
                         .anyRequest().authenticated())
-                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
                 .addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
+                
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        
         return http.build();
     }
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3001"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:3000",
+                                                    "http://localhost:3001",
+                                                    "http://localhost:3002",
+                                                    "http://localhost:3003",
+                                                    "http://localhost:3004",
+                                                    "http://localhost:3005",
+                                                    "http://localhost:3006"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
