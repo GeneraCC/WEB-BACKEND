@@ -1,17 +1,22 @@
 package com.generacc.backend.calidad.backendcalidad.model.entity;
 
 import java.util.List;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.generacc.backend.calidad.backendcalidad.model.calidad.ItemRegistroCalidad;
 
 public class Registro {
     
-    private List<Map<Long, Integer>> registros;
+    private List<ItemRegistroCalidad>  registros;
     private Long idUsuario;
 
-    public List<Map<Long,Integer>> getRegistros() {
+    @Autowired
+    public List<ItemRegistroCalidad> getRegistros() {
         return registros;
     }
-    public void setRegistros(List<Map<Long,Integer>> idCliente) {
+    public void setRegistros(List<ItemRegistroCalidad>idCliente) {
         this.registros= idCliente;
     }
 

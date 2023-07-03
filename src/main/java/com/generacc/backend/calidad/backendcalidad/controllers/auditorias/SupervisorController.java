@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +37,15 @@ public class SupervisorController {
 
     @PostMapping("/asignarregistros")
     public ResponseEntity<Void> asignarRegistros(@RequestBody Registro registros){
-        boolean resultado = service.insertarRegistros(registros.getIdUsuario(),registros.getRegistros());
-        return null;
+        System.out.println(registros.getIdUsuario());
+        System.out.println(registros.getRegistros());
+        if(service.insertarRegistros(registros.getIdUsuario(),registros.getRegistros())){
+            return ResponseEntity.ok().build();
+
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+         
 
     }
 

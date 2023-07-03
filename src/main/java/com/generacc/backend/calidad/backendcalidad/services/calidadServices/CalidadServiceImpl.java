@@ -31,11 +31,10 @@ public class CalidadServiceImpl implements CalidadService {
             try {
                 String querysql = "EXEC CALIDAD_WEB.dbo.pa_ListaVentasAEvaluar";
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Ejecutivo_Calidad"))) {
-                    querysql = "EXEC CALIDAD_WEB.dbo.pa_ListaVentasAEvaluarAsignadas :idusuario";
-                }
                 Query query = this.entityManager.createNativeQuery(querysql, Tuple.class);
                 if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Ejecutivo_Calidad"))) {
+                    querysql = "EXEC CALIDAD_WEB.dbo.pa_ListaVentasAEvaluarAsignadas :idusuario";
+                    query = this.entityManager.createNativeQuery(querysql, Tuple.class);
                     query.setParameter("idusuario", id);
                 }
                 List<Tuple> tuples = query.getResultList();
