@@ -3,22 +3,22 @@ package com.generacc.backend.calidad.backendcalidad.model.calidad;
 public class ItemRegistroCalidad {
 
     private long idRegistro;
-    private int idCampaña;
+    private int idCampana;
     public long getIdRegistro() {
         return idRegistro;
     }
     public void setIdRegistro(long idRegistro) {
         this.idRegistro = idRegistro;
     }
-    public int getIdCampaña() {
-        return idCampaña;
+    public int getIdCampana() {
+        return idCampana;
     }
-    public void setIdCampaña(int idCampaña) {
-        this.idCampaña = idCampaña;
+    public void setIdCampaña(int idCampana) {
+        this.idCampana = idCampana;
     }
     @Override
     public String toString() {
-        return "ItemRegistroCalidad [idRegistro=" + idRegistro + ", idCampaña=" + idCampaña + "]";
+        return "ItemRegistroCalidad [idRegistro=" + idRegistro + ", idCampaña=" + idCampana + "]";
     }
     
 }

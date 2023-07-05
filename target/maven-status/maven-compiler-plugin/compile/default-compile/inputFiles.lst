@@ -11,6 +11,7 @@ D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendca
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\filters\JwtValidationFilter.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\UserServiceImpl.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\controllers\auditorias\CalidadController.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\repositories\CalidadStoreProcedure.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\calidadServices\CalidadService.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\calidadServices\EjecutivoCalidadService.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\auth\SpringSecurityConfig.java

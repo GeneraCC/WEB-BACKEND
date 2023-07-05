@@ -37,8 +37,6 @@ public class SupervisorController {
 
     @PostMapping("/asignarregistros")
     public ResponseEntity<Void> asignarRegistros(@RequestBody Registro registros){
-        System.out.println(registros.getIdUsuario());
-        System.out.println(registros.getRegistros());
         if(service.insertarRegistros(registros.getIdUsuario(),registros.getRegistros())){
             return ResponseEntity.ok().build();
 

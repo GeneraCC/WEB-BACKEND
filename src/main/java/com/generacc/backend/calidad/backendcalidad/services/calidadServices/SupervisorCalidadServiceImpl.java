@@ -30,7 +30,6 @@ public class SupervisorCalidadServiceImpl implements SupervisorCalidadService {
     @Transactional
     public boolean insertarRegistros(Long idUsuario, List<ItemRegistroCalidad> registros) {
         AtomicBoolean result = new AtomicBoolean(true);
-        
         try {
             String registrosJson = objectMapper.writeValueAsString(registros);
             System.out.println(registrosJson);        
@@ -40,18 +39,13 @@ public class SupervisorCalidadServiceImpl implements SupervisorCalidadService {
             query.setParameter("tablaJson",registrosJson);
             query.executeUpdate();
             result.set(true);
-            
         } catch (Exception e) {
             e.printStackTrace();
             result.set(false);
         }
         return result.get();
-
+        }
         
-        
-    }
-        
-    
 }
     
 

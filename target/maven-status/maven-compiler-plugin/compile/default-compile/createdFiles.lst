@@ -18,6 +18,7 @@ com\generacc\backend\calidad\backendcalidad\auth\SpringSecurityConfig.class
 com\generacc\backend\calidad\backendcalidad\auth\TokenJwtConfig.class
 com\generacc\backend\calidad\backendcalidad\services\calidadServices\SupervisorCalidadServiceImpl.class
 com\generacc\backend\calidad\backendcalidad\controllers\auditorias\CalidadController.class
+com\generacc\backend\calidad\backendcalidad\repositories\CalidadStoreProcedure.class
 com\generacc\backend\calidad\backendcalidad\auth\SimpleGrantedAuthorityJsonCreator.class
 com\generacc\backend\calidad\backendcalidad\services\calidadServices\EjecutivoCalidadService.class
 com\generacc\backend\calidad\backendcalidad\model\dto\UsuarioDto.class
