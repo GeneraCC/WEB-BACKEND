@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +31,12 @@ public class CalidadController {
         Long userId = serviceCalidad.findUserIdByUsername(username);
         return service.getVentasPorAuditar(userId,numeropagina, tamano);   
     }
+    
     @GetMapping("/detalleregistro/{idregistro}")
     public Map<String, Object> detallerRegistro(@PathVariable int idregistro){
         return service.detalleRegistro(idregistro);
     }
+
     @GetMapping("/resumen")
     public List<Map<String,Object>> getResumen() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
