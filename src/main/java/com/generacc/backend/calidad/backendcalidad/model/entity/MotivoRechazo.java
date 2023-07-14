@@ -1,16 +1,23 @@
 package com.generacc.backend.calidad.backendcalidad.model.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Motivo", catalog = "CALIDAD_WEB")
+@Table(name = "Motivo", catalog = "CALIDAD_WEB", schema = "dbo")
 public class MotivoRechazo {
     @Id
+    @Column(name = "idmotivo")
     private Long idMotivo;
+
     private String descripcion;
+
+    @Column(name = "idinstancia")
     private long idInstancia;
+
+    @Column(name = "idpadre")
     private Long idPadre;
     private Boolean activo;
     

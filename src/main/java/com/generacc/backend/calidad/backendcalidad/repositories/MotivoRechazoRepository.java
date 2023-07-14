@@ -6,4 +6,6 @@ import com.generacc.backend.calidad.backendcalidad.model.entity.MotivoRechazo;
 
 public interface MotivoRechazoRepository extends CrudRepository<MotivoRechazo, Long>{
     List<MotivoRechazo> findAll();
+
+    List<MotivoRechazo> findByActivo(Boolean activo);
 }
