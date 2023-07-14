@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generacc.backend.calidad.backendcalidad.model.calidad.ItemRegistroCalidad;
 
 public class Registro {

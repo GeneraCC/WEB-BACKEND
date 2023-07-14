@@ -1,7 +1,9 @@
 package com.generacc.backend.calidad.backendcalidad.services.calidadServices;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generacc.backend.calidad.backendcalidad.repositories.CalidadStoreProcedure;
 
 import jakarta.persistence.EntityManager;
@@ -26,12 +30,14 @@ import jakarta.persistence.TupleElement;
 public class CalidadServiceImpl implements CalidadService {
 
     private final JdbcTemplate jdbcTemplate;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     private EntityManager entityManager;
 
-    public CalidadServiceImpl(JdbcTemplate jdbcTemplate){
+    public CalidadServiceImpl(JdbcTemplate jdbcTemplate,ObjectMapper objectMapper){
         this.jdbcTemplate=jdbcTemplate;
+        this.objectMapper=objectMapper;
     }
 
     @Override
@@ -74,6 +80,7 @@ public class CalidadServiceImpl implements CalidadService {
         parametroProcedimientos.put(nombreParametro, idRegistro);
         List<Map<String, Object>> resultado = calidadStoreProcedure.ejecutar(parametroProcedimientos);
         Map<String , Object> resultadoFinal = new HashMap<>();
+        resultadoFinal.put("Cabezera",resultado);
         resultadoFinal.put("Adicional",resultado);
         resultadoFinal.put("Beneficiarios",resultado);
         resultadoFinal.put("Polizas", resultado);
@@ -95,4 +102,36 @@ public class CalidadServiceImpl implements CalidadService {
         return resultado;
         
     }
+
+    @Override
+    public Boolean actualizarRegistro(String request) {
+
+        StringBuilder updateQuery = new StringBuilder("UPDATE your_table SET ");
+        
+        try {
+            JsonNode nodo = objectMapper.readTree(request);
+            String sql = "select centroCosto "+ 
+                         "from CALIDAD_WEB.dbo.registrosCalidad "+
+                         "where idRegistro =?";
+            Iterator<Map.Entry<String, JsonNode>> fieldsIterator = nodo.fields();
+            String centroCosto = jdbcTemplate.queryForObject(sql
+                                                ,String.class
+                                                ,nodo.get("idRegistro").asLong());
+            while(fieldsIterator.hasNext()){
+                Map.Entry<String,JsonNode> fieldEntry = fieldsIterator.next();
+                String fieldName = fieldEntry.getKey();
+                JsonNode fieldValue = fieldEntry.getValue();
+                String llaveValor = fieldName+"= "+fieldValue.asText();
+                updateQuery.append(llaveValor).append(", ");
+            }
+            String updateQueString = updateQuery.toString();
+            
+            System.out.println(updateQueString);
+            return true;
+               
+    
+        } catch (Exception e) {
+            return false;
+        }
+      }
 }

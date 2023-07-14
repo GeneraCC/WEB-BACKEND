@@ -18,6 +18,7 @@ D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendca
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\calidadServices\CalidadServiceImpl.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\JpaUserDetailsService.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\model\entity\Registro.java
+D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\model\calidad\Poliza.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\BackendCalidadApplication.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\controllers\auditorias\SupervisorController.java
 D:\Generacc\backend-calidad\src\main\java\com\generacc\backend\calidad\backendcalidad\services\UserService.java
