@@ -1,12 +1,9 @@
 package com.generacc.backend.calidad.backendcalidad.auth;
 
 import java.util.Arrays;
-
 import org.springframework.web.filter.CorsFilter;
-
 import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtAuthenticationFilter;
 import com.generacc.backend.calidad.backendcalidad.auth.filters.JwtValidationFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
