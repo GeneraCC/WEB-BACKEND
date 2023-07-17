@@ -19,6 +19,7 @@ public interface UserRepository extends CrudRepository<Usuario, Long> {
     @Query("SELECT new com.generacc.backend.calidad.backendcalidad.model.dto.UsuarioDto(u.idusuario, u.nombreusuario) FROM Usuario u JOIN u.perfil p WHERE p.idPerfil = ?1")
     List<UsuarioDto> findUsersByPerfilId(Long idperfil);
 
-    
+     @Query("SELECT u.idusuario FROM Usuario u WHERE u.nombreusuario = ?1")
+    Optional<Long> findIdusuarioByNombreUsuario(String nombreUsuario);
 
 }

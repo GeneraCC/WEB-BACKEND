@@ -1,11 +1,11 @@
 package com.generacc.backend.calidad.backendcalidad.services.calidadServices;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,13 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generacc.backend.calidad.backendcalidad.repositories.CalidadStoreProcedure;
+import com.generacc.backend.calidad.backendcalidad.repositories.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -31,6 +34,8 @@ public class CalidadServiceImpl implements CalidadService {
 
     private final JdbcTemplate jdbcTemplate;
     private final ObjectMapper objectMapper;
+    @Autowired
+    public UserRepository repository;
 
     @Autowired
     private EntityManager entityManager;
@@ -70,23 +75,29 @@ public class CalidadServiceImpl implements CalidadService {
                 return null;
             }
         }
-
     @Override
-    public Map<String, Object> detalleRegistro(int idRegistro) {
-        String querySql = "[Calidad_WEB].[dbo].[pa_DetalleRegistroAEvaluar_Poliza]";
-        String nombreParametro = "idRegistro";
-        CalidadStoreProcedure calidadStoreProcedure = new CalidadStoreProcedure(jdbcTemplate,querySql,nombreParametro);
-        Map<String, Object> parametroProcedimientos = new HashMap<>();
-        parametroProcedimientos.put(nombreParametro, idRegistro);
-        List<Map<String, Object>> resultado = calidadStoreProcedure.ejecutar(parametroProcedimientos);
-        Map<String , Object> resultadoFinal = new HashMap<>();
-        resultadoFinal.put("Cabezera",resultado);
-        resultadoFinal.put("Adicional",resultado);
-        resultadoFinal.put("Beneficiarios",resultado);
-        resultadoFinal.put("Polizas", resultado);
-        return resultadoFinal;
+    public Map<String, Object> detalleRegistro(int idRegistro,Authentication authentication) {
+        Optional<Long> idUsuario=repository.findIdusuarioByNombreUsuario(authentication.getName());
+        String queryValida = "SELECT idUsuario from calidad_web.dbo.registroscalidad where idregistro ="+idRegistro;
+        Long result =jdbcTemplate.queryForObject(queryValida,Long.class);
+        System.out.println(result);
+        System.out.println(idUsuario.get());
+        if(result.equals(idUsuario.get())||authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Supervisor_Calidad"))){
+            System.out.println(idUsuario);
+            String querySql = "[Calidad_WEB].[dbo].[pa_DetalleRegistroAEvaluar_Poliza]";
+            String nombreParametro = "idRegistro";
+            CalidadStoreProcedure calidadStoreProcedure = new CalidadStoreProcedure(jdbcTemplate,querySql,nombreParametro);
+            Map<String, Object> parametroProcedimientos = new HashMap<>();
+            parametroProcedimientos.put(nombreParametro, idRegistro);
+            List<Map<String, Object>> resultado = calidadStoreProcedure.ejecutar(parametroProcedimientos);
+            Map<String , Object> resultadoFinal = new HashMap<>();
+            resultadoFinal.put("Cabezera",resultado);
+            resultadoFinal.put("Adicional",resultado);
+            resultadoFinal.put("Beneficiarios",resultado);
+            resultadoFinal.put("Polizas", resultado);
+            return resultadoFinal;}
+        else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Usuario invalido");
     }
-
     @Override                           
     public List<Map<String, Object>> resumenEjecutvioCalidad(Long id) {
         String querySql = "[Calidad_WEB].[dbo].[pa_resumenEjecutivo]";
@@ -99,17 +110,14 @@ public class CalidadServiceImpl implements CalidadService {
             parametroProcedimientos.put(nombreParametro, id);    
         }
         List<Map<String, Object>> resultado = calidadStoreProcedure.ejecutar(parametroProcedimientos);
-        return resultado;
-        
+        return resultado;      
     }
-
     @Override
     public Boolean actualizarRegistro(String request) {
-
-        StringBuilder updateQuery = new StringBuilder("UPDATE your_table SET ");
-        
+        StringBuilder updateQuery = new StringBuilder("UPDATE BDD_");    
         try {
             JsonNode nodo = objectMapper.readTree(request);
+            String queryWhere ="";
             String sql = "select centroCosto "+ 
                          "from CALIDAD_WEB.dbo.registrosCalidad "+
                          "where idRegistro =?";
@@ -117,21 +125,31 @@ public class CalidadServiceImpl implements CalidadService {
             String centroCosto = jdbcTemplate.queryForObject(sql
                                                 ,String.class
                                                 ,nodo.get("idRegistro").asLong());
+            updateQuery.append(centroCosto).append(".Gestion.Polizas SET ");
+            boolean isFirstField = true;
             while(fieldsIterator.hasNext()){
                 Map.Entry<String,JsonNode> fieldEntry = fieldsIterator.next();
-                String fieldName = fieldEntry.getKey();
-                JsonNode fieldValue = fieldEntry.getValue();
-                String llaveValor = fieldName+"= "+fieldValue.asText();
-                updateQuery.append(llaveValor).append(", ");
-            }
+                if(fieldEntry.getKey().equals("p_id")){
+                    queryWhere = "WHERE p_id = "+fieldEntry.getValue();
+                    continue;
+                }
+                if(!fieldEntry.getKey().equals("idRegistro")){
+                    if(!isFirstField){
+                        updateQuery.append(",");
+                    }else{
+                        isFirstField=false;
+                    }
+                    String fieldName =fieldEntry.getKey();
+                    JsonNode fieldValue =  fieldEntry.getValue();
+                    String llaveValor = fieldName+"= '"+fieldValue.asText()+"'";
+                    updateQuery.append(llaveValor);}
+                }
             String updateQueString = updateQuery.toString();
-            
-            System.out.println(updateQueString);
+            updateQueString += " "+queryWhere;
+            jdbcTemplate.execute(updateQueString);                     
             return true;
-               
-    
         } catch (Exception e) {
             return false;
         }
-      }
-}
+      
+}}

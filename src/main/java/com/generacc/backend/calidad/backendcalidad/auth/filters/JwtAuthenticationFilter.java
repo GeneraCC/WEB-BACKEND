@@ -75,8 +75,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             .setSubject(username)
             .signWith(Secret_Key)
             .setIssuedAt(new Date())
-            // .setExpiration(new Date(System.currentTimeMillis()+28800000))
-            .setExpiration(new Date(System.currentTimeMillis()+30000))
+            .setExpiration(new Date(System.currentTimeMillis()+28800000))
+            //.setExpiration(new Date(System.currentTimeMillis()+30000))
             .compact();
 
         response.addHeader("Authorization", "Bearer" + token);
