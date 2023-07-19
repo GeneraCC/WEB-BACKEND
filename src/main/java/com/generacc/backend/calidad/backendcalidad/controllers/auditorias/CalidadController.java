@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.CalidadServiceImpl;
-import com.generacc.backend.calidad.backendcalidad.model.entity.MotivoRechazo;
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.EjecutivoCalidadServiceImpl;
 import com.generacc.backend.calidad.backendcalidad.services.generalServices.MotivoRechazoImpl;
 
@@ -22,9 +21,6 @@ import com.generacc.backend.calidad.backendcalidad.services.generalServices.Moti
 public class CalidadController {
     @Autowired
     private CalidadServiceImpl service;
-
-    @Autowired
-    private MotivoRechazoImpl rechazos;
 
     @Autowired
     private EjecutivoCalidadServiceImpl serviceCalidad;
