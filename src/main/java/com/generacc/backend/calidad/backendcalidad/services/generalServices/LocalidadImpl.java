@@ -16,7 +16,6 @@ public class LocalidadImpl implements LocalidadService{
 
     @Override
     public List<LocalidadDto> findJoinedData() {
-        var s = repo.findJoinedData();
-        return s;
+        return repo.findJoinedData();
     }
 }

@@ -49,9 +49,4 @@ public class CalidadController {
         Long userId = serviceCalidad.findUserIdByUsername(username);
         return service.resumenEjecutvioCalidad(userId);   
     }
-
-    @GetMapping("/detalleregistro")
-    public List<MotivoRechazo> getMotivoRechazo() {
-        return rechazos.findByActivo();
-    }
 }
