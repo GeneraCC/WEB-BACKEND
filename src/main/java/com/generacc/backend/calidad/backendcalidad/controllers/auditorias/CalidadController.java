@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.CalidadServiceImpl;
 import com.generacc.backend.calidad.backendcalidad.model.entity.MotivoRechazo;
-import com.generacc.backend.calidad.backendcalidad.services.MotivoRechazoImpl;
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.EjecutivoCalidadServiceImpl;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import com.generacc.backend.calidad.backendcalidad.services.generalServices.MotivoRechazoImpl;
 
 @RestController
 @RequestMapping("/calidad")
