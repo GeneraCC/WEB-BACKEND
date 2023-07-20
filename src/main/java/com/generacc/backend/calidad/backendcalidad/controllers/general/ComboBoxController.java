@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,19 +55,29 @@ public class ComboBoxController {
     }
 
     @GetMapping("/parentesco/{centroCosto}")
-    public List<ParentescoCampana> findParentescoCampanas(@PathVariable Long centroCosto){
-        List<ParentescoCampana> tipoPersonas = parentesco.findByCentroCostoAndActivo(centroCosto,true);
-        Set<String> nombresUnicos = new HashSet<>();
-        for (ParentescoCampana objeto : tipoPersonas) {
-            nombresUnicos.add(objeto.getTipoPersona().getTipoPersona());
+    public List<TipoPersonaDto> findParentescoCampanas(@PathVariable Long centroCosto){
+        List<ParentescoCampana> listaParentesco = parentesco.findByCentroCostoAndActivo(centroCosto,true);
+        
+        List<TipoPersona> listaPersona = listaParentesco.stream()
+                .map(x -> x.getTipoPersona())
+                .distinct()
+                .collect(Collectors.toList());
+    
+        List<TipoPersonaDto> tipoPersonaDTOs = new ArrayList<>();
+        for (TipoPersona persona : listaPersona){
+            TipoPersonaDto personaDTO = new TipoPersonaDto();
+            List<ParentescoCampana> listaPc = new ArrayList<>();
+            for (ParentescoCampana p : listaParentesco) {
+                if (persona.getTipoPersona() == p.getTipoPersona().getTipoPersona()){
+                    ParentescoCampana pc = new ParentescoCampana(p.getIdParentescoCampana(), p.getCentroCosto(), p.getEdadMin(), p.getEdadMax(), p.getParentesco(), true);
+                    personaDTO.setTipoPersona(persona.getTipoPersona());
+                    personaDTO.setIdTipoPersona(persona.getIdTipoPersona());
+                    listaPc.add(pc);
+                } else continue;
+                personaDTO.setParentescoCampanas(listaPc);
+            }            
+            tipoPersonaDTOs.add(personaDTO);
         }
-
-        List<ParentescoCampana> tipoPersonaDTOs = new ArrayList<>();
-        // String algo = tipoPersonas.getTipoPersona().toString();
-        for (ParentescoCampana tipoPersona : tipoPersonas) {
-            TipoPersonaDto tipoPersonaDTO = new TipoPersonaDto();
-            String algso = tipoPersona.getTipoPersona().getTipoPersona();
-        }
-        return parentesco.findByCentroCostoAndActivo(centroCosto,true);
+        return tipoPersonaDTOs;
     }
 }

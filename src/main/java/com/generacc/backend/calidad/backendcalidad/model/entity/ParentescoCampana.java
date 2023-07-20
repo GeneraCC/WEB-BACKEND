@@ -19,6 +19,17 @@ public class ParentescoCampana {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idtipopersona")
     private TipoPersona tipoPersona;
+
+    public ParentescoCampana(){}
+
+    public ParentescoCampana(Long idParentescoCampana, Long centroCosto, Long edadMin, Long edadMax,Parentesco parentesco, Boolean activo) {
+        this.idParentescoCampana = idParentescoCampana;
+        this.centroCosto = centroCosto;
+        this.edadMin = edadMin;
+        this.edadMax = edadMax;
+        this.parentesco = parentesco;
+        this.activo = activo;
+    }
     @Column(name = "edadmin")
     private Long edadMin;
     @Column(name = "edadmax")
