@@ -80,21 +80,55 @@ public class CalidadServiceImpl implements CalidadService {
         Optional<Long> idUsuario=repository.findIdusuarioByNombreUsuario(authentication.getName());
         String queryValida = "SELECT idUsuario from calidad_web.dbo.registroscalidad where idregistro ="+idRegistro;
         Long result =jdbcTemplate.queryForObject(queryValida,Long.class);
-        System.out.println(result);
-        System.out.println(idUsuario.get());
         if(result.equals(idUsuario.get())||authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Supervisor_Calidad"))){
+            Map<String , Object> resultadoFinal = new HashMap<>();
             System.out.println(idUsuario);
             String querySql = "[Calidad_WEB].[dbo].[pa_DetalleRegistroAEvaluar_Poliza]";
             String nombreParametro = "idRegistro";
+            String sql = "select centroCosto "+ 
+                         "from CALIDAD_WEB.dbo.registrosCalidad "+
+                         "where idRegistro =?";
+            String centroCosto = jdbcTemplate.queryForObject(sql
+                                                ,String.class
+                                                ,idRegistro);
             CalidadStoreProcedure calidadStoreProcedure = new CalidadStoreProcedure(jdbcTemplate,querySql,nombreParametro);
             Map<String, Object> parametroProcedimientos = new HashMap<>();
             parametroProcedimientos.put(nombreParametro, idRegistro);
             List<Map<String, Object>> resultado = calidadStoreProcedure.ejecutar(parametroProcedimientos);
-            Map<String , Object> resultadoFinal = new HashMap<>();
-            resultadoFinal.put("Cabezera",resultado);
-            resultadoFinal.put("Adicional",resultado);
-            resultadoFinal.put("Beneficiarios",resultado);
+            Long idCliente=null;
+            List<Map<String,Object>> adicionales=new ArrayList<>();
+            List<Map<String,Object>> beneficiario=new ArrayList<>();
+            for(Map<String,Object> iterador : resultado){
+                System.out.println(iterador);
+                System.out.println(iterador.get("idCliente"));
+                if(idCliente==(Long) iterador.get("idCliente")){
+                    continue;
+                }
+                idCliente=(Long) iterador.get("idCliente");
+                String queryBeneficiarios = "Select * from BDD_"+centroCosto+".Gestion.Beneficiario Where C_ID="+(Long) iterador.get("idCliente");
+                String queryAdicionales = "Select * from BDD_"+centroCosto+".Gestion.Adicional Where C_ID="+(Long) iterador.get("idCliente");
+                List<Tuple> adicionalesTupla = this.entityManager.createNativeQuery(queryAdicionales,Tuple.class).getResultList();
+                for (Tuple tuple : adicionalesTupla) {
+                    Map<String, Object> map = new HashMap<>();
+                    for (TupleElement<?> element : tuple.getElements()) {
+                        map.put(element.getAlias(), tuple.get(element.getAlias()));
+                    }
+                    adicionales.add(map);
+                }
+                List<Tuple>beneficiarioTupla = this.entityManager.createNativeQuery(queryBeneficiarios,Tuple.class).getResultList();
+                for (Tuple tuple : beneficiarioTupla) {
+                    Map<String, Object> map = new HashMap<>();
+                    for (TupleElement<?> element : tuple.getElements()) {
+                        map.put(element.getAlias(), tuple.get(element.getAlias()));
+                    }
+                    beneficiario.add(map);
+                }
+               
+            }            
+            resultadoFinal.put("Cabecera",resultado);
             resultadoFinal.put("Polizas", resultado);
+            resultadoFinal.put("Beneficiario",beneficiario);
+            resultadoFinal.put("Adicionales", adicionales);
             return resultadoFinal;}
         else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Usuario invalido");
     }
