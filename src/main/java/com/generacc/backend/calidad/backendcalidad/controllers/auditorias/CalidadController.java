@@ -13,20 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.CalidadServiceImpl;
-import com.generacc.backend.calidad.backendcalidad.model.entity.MotivoRechazo;
-import com.generacc.backend.calidad.backendcalidad.services.MotivoRechazoImpl;
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.EjecutivoCalidadServiceImpl;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import com.generacc.backend.calidad.backendcalidad.services.generalServices.MotivoRechazoImpl;
 
 @RestController
 @RequestMapping("/calidad")
 public class CalidadController {
     @Autowired
     private CalidadServiceImpl service;
-
-    @Autowired
-    private MotivoRechazoImpl rechazos;
 
     @Autowired
     private EjecutivoCalidadServiceImpl serviceCalidad;
@@ -50,10 +44,5 @@ public class CalidadController {
         String username = authentication.getName();
         Long userId = serviceCalidad.findUserIdByUsername(username);
         return service.resumenEjecutvioCalidad(userId);   
-    }
-
-    @GetMapping("/detalleregistro")
-    public List<MotivoRechazo> getMotivoRechazo() {
-        return rechazos.findByActivo();
     }
 }
