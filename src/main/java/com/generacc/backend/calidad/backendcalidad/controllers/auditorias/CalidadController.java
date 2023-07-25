@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.CalidadServiceImpl;
 import com.generacc.backend.calidad.backendcalidad.services.calidadServices.EjecutivoCalidadServiceImpl;
-import com.generacc.backend.calidad.backendcalidad.services.generalServices.MotivoRechazoImpl;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/calidad")
@@ -35,7 +39,7 @@ public class CalidadController {
     
     @GetMapping("/detalleregistro/{idregistro}")
     public Map<String, Object> detallerRegistro(@PathVariable int idregistro){
-        return service.detalleRegistro(idregistro);
+        return service.detalleRegistro(idregistro,SecurityContextHolder.getContext().getAuthentication());
     }
 
     @GetMapping("/resumen")
@@ -45,4 +49,16 @@ public class CalidadController {
         Long userId = serviceCalidad.findUserIdByUsername(username);
         return service.resumenEjecutvioCalidad(userId);   
     }
+    @PostMapping(value="/actualizaRegistro")
+    public ResponseEntity<Void> postMethodName(@RequestBody String request ) {
+           if(service.actualizarRegistro(request)){
+            return ResponseEntity.ok().build();
+
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+
+
 }
