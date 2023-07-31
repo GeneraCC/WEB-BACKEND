@@ -2,6 +2,7 @@ package com.generacc.backend.calidad.backendcalidad.model.entity;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.generacc.backend.calidad.backendcalidad.model.calidad.ItemRegistroCalidad;
 
 public class Registro {

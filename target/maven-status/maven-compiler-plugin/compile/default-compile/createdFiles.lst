@@ -1,5 +1,6 @@
 com\generacc\backend\calidad\backendcalidad\services\calidadServices\SupervisorCalidadService.class
 com\generacc\backend\calidad\backendcalidad\auth\filters\JwtValidationFilter.class
+com\generacc\backend\calidad\backendcalidad\model\calidad\Poliza.class
 com\generacc\backend\calidad\backendcalidad\auth\filters\JwtAuthenticationFilter.class
 com\generacc\backend\calidad\backendcalidad\model\calidad\ItemRegistroCalidad.class
 com\generacc\backend\calidad\backendcalidad\model\entity\Registro.class

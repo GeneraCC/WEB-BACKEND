@@ -63,4 +63,9 @@ public class UserServiceImpl implements UserService {
         return repository.findUsersByPerfilId(idperfil);
     }
 
+    @Override
+    public Optional<Long> findIdusuarioByNombreUsuario(String nombreUsuario) {
+        return repository.findIdusuarioByNombreUsuario(nombreUsuario);
+    }
+
 }
