@@ -11,6 +11,8 @@ public interface CalidadService {
     Map<String, Object> detalleRegistro(int idRegistro,Authentication authentication);
     List<Map<String, Object>> resumenEjecutvioCalidad(Long id);
     Boolean actualizarRegistro (String request);
+    Boolean actualizarBeneficiario (String request);
+    Boolean actualizarAdicional (String request);
 
 
     

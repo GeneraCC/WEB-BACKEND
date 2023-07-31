@@ -185,5 +185,85 @@ public class CalidadServiceImpl implements CalidadService {
         } catch (Exception e) {
             return false;
         }
+    }
+    @Override
+    public Boolean actualizarBeneficiario(String request) {
+        StringBuilder updateQuery = new StringBuilder("UPDATE BDD_");    
+        try {
+            JsonNode nodo = objectMapper.readTree(request);
+            String queryWhere ="";
+            String sql = "select centroCosto "+ 
+                         "from CALIDAD_WEB.dbo.registrosCalidad "+
+                         "where idRegistro =?";
+            Iterator<Map.Entry<String, JsonNode>> fieldsIterator = nodo.fields();
+            String centroCosto = jdbcTemplate.queryForObject(sql
+                                                ,String.class
+                                                ,nodo.get("idRegistro").asLong());
+            updateQuery.append(centroCosto).append(".Gestion.Beneficiario SET ");
+            boolean isFirstField = true;
+            while(fieldsIterator.hasNext()){
+                Map.Entry<String,JsonNode> fieldEntry = fieldsIterator.next();
+                if(fieldEntry.getKey().equals("p_id")){
+                    queryWhere = "WHERE p_id = "+fieldEntry.getValue();
+                    continue;
+                }
+                if(!fieldEntry.getKey().equals("idRegistro")){
+                    if(!isFirstField){
+                        updateQuery.append(",");
+                    }else{
+                        isFirstField=false;
+                    }
+                    String fieldName =fieldEntry.getKey();
+                    JsonNode fieldValue =  fieldEntry.getValue();
+                    String llaveValor = fieldName+"= '"+fieldValue.asText()+"'";
+                    updateQuery.append(llaveValor);}
+                }
+            String updateQueString = updateQuery.toString();
+            updateQueString += " "+queryWhere;
+            jdbcTemplate.execute(updateQueString);                     
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    @Override
+        public Boolean actualizarAdicional(String request) {
+        StringBuilder updateQuery = new StringBuilder("UPDATE BDD_");    
+        try {
+            JsonNode nodo = objectMapper.readTree(request);
+            String queryWhere ="";
+            String sql = "select centroCosto "+ 
+                         "from CALIDAD_WEB.dbo.registrosCalidad "+
+                         "where idRegistro =?";
+            Iterator<Map.Entry<String, JsonNode>> fieldsIterator = nodo.fields();
+            String centroCosto = jdbcTemplate.queryForObject(sql
+                                                ,String.class
+                                                ,nodo.get("idRegistro").asLong());
+            updateQuery.append(centroCosto).append(".Gestion.Adicional SET ");
+            boolean isFirstField = true;
+            while(fieldsIterator.hasNext()){
+                Map.Entry<String,JsonNode> fieldEntry = fieldsIterator.next();
+                if(fieldEntry.getKey().equals("p_id")){
+                    queryWhere = "WHERE p_id = "+fieldEntry.getValue();
+                    continue;
+                }
+                if(!fieldEntry.getKey().equals("idRegistro")){
+                    if(!isFirstField){
+                        updateQuery.append(",");
+                    }else{
+                        isFirstField=false;
+                    }
+                    String fieldName =fieldEntry.getKey();
+                    JsonNode fieldValue =  fieldEntry.getValue();
+                    String llaveValor = fieldName+"= '"+fieldValue.asText()+"'";
+                    updateQuery.append(llaveValor);}
+                }
+            String updateQueString = updateQuery.toString();
+            updateQueString += " "+queryWhere;
+            jdbcTemplate.execute(updateQueString);                     
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
       
 }}

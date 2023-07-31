@@ -47,8 +47,8 @@ public class CalidadController {
         Long userId = serviceCalidad.findUserIdByUsername(username);
         return service.resumenEjecutvioCalidad(userId);   
     }
-    @PostMapping(value="/actualizaRegistro")
-    public ResponseEntity<Void> postMethodName(@RequestBody String request ) {
+    @PostMapping(value="/actualizaregistro")
+    public ResponseEntity<Void> actualizaRegistro(@RequestBody String request ) {
            if(service.actualizarRegistro(request)){
             return ResponseEntity.ok().build();
 
@@ -56,7 +56,24 @@ public class CalidadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+    @PostMapping(value="/actualizaAdicional")
+    public ResponseEntity<Void> actualizaAdicional(@RequestBody String request ) {
+           if(service.actualizarAdicional(request)){
+            return ResponseEntity.ok().build();
+
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping(value="/actualizabeneficiario")    
+    public ResponseEntity<Void> actualizaBeneficiario(@RequestBody String request ) {
+           if(service.actualizarBeneficiario(request)){
+            return ResponseEntity.ok().build();
+
+        }else{
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 
 }
